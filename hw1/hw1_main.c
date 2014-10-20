@@ -1,28 +1,36 @@
-/*
- * File: hw1_main.c
- * gcc -c hw1_main.c -o main.o
- * gcc main.o hw1_lib.o -o hw1
- */
-#include "hw1_lib.h"
+#include<stdio.h>
+#include<string.h>
 
-int main(int argc, char* argv[])
-{
-   uint16_t b, g;
-   if (argc != 3) {
-     printf("Usage: %s b binary_input\n"
-            "       %s g gray_input\n", argv[0], argv[0]);
-     return 0;
-   }
-   if(argv[1][0]=='g') {
-       sscanf(argv[2], "%X", &g);
-       b = gray_to_binary(g);
-       printf("g:%X => b:%X\n", g, b);
-   }
-   if(argv[1][0]=='b') {
-       sscanf(argv[2], "%X",  &b);
-       g = binary_to_gray(b);
-       printf("b:%X => g:%X\n", b, g);
-   }
-   return 0;
+void *memcpy(void *dst, const void *src, size_t len)
+ {
+         size_t i;
+ 
+         if ((((size_t)dst % sizeof(long)) == 0) && (((size_t)src % sizeof(long)) == 0) && (len % sizeof(long) == 0)) {
+                 long *d = dst;
+                 const long *s = src;
+ 
+                 for (i=0; i<len/sizeof(long); i++) {
+                         d[i] = s[i];
+                 }
+         }
+         else {
+                 char *d = dst;
+                 const char *s = src;
+ 
+                 for (i=0; i<len; i++) {
+                         d[i] = s[i];
+                }
+         }
+
+         return dst;
 }
 
+int main()
+ {
+   char src[5] = "HELLO" ;
+   char dst[5];
+
+   memcpy(dst, src, strlen(src));
+
+   return(0);
+ }
